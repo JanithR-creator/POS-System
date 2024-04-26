@@ -2,32 +2,36 @@ import {Component} from '@angular/core';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {finalize, Observable} from "rxjs";
-import {error} from "@angular/compiler-cli/src/transformers/util";
 import {MatProgressBar} from "@angular/material/progress-bar";
-import {AsyncPipe} from "@angular/common";
+import {AsyncPipe, NgIf} from "@angular/common";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {AngularFireDatabase} from "@angular/fire/compat/database";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
 
 @Component({
   selector: 'app-customer-new',
   standalone: true,
   imports: [
     MatFormField,
-    MatInput,
     MatLabel,
+    MatInput,
     MatButton,
-    FormsModule,
     ReactiveFormsModule,
     MatProgressBar,
-    AsyncPipe
+    AsyncPipe,
+    NgIf
   ],
   templateUrl: './customer-new.component.html',
   styleUrl: './customer-new.component.scss'
 })
 export class CustomerNewComponent {
 
-  constructor(private storage: AngularFireStorage) {
+  constructor(private storage: AngularFireStorage,
+              private db: AngularFirestore,
+              private snackbarService: MatSnackBar) {
   }
 
   loading: boolean = false;
@@ -37,14 +41,16 @@ export class CustomerNewComponent {
   // @ts-ignore
   downloadLink: Observable<string | undefined>;
 
-  form: FormGroup = new FormGroup({
+  form = new FormGroup({
     fullName: new FormControl('', [Validators.required]),
     address: new FormControl('', [Validators.required]),
     salary: new FormControl('', [Validators.required]),
-    avatar: new FormControl('', [Validators.required]),
+    avatar: new FormControl('', [Validators.required])
   })
 
   saveCustomer() {
+
+    this.loading = true;
 
     const path = 'avatar/' + this.form.value.fullName + '/' + this.selectedAvatar.name;
     const fileRef = this.storage.ref(path);
@@ -56,24 +62,45 @@ export class CustomerNewComponent {
       finalize(() => {
         this.downloadLink = fileRef.getDownloadURL();
       })
-    ).subscribe();//yawana request eka exwcute wenawa
+    ).subscribe();
 
     task.then(() => {
-      console.log('saved');
+
+      this.downloadLink.subscribe(res => {
+        let customer = {
+          fullName: this.form.value.fullName,
+          address: this.form.value.address,
+          salary: this.form.value.salary,
+          avatar: res
+        }
+
+        //-----------------------
+        this.db.collection('customers').add(customer)
+          .then((docRef) => {
+            this.snackbarService.open('Customer Saved!', 'Close', {
+              duration: 5000,
+              verticalPosition: 'top',
+              horizontalPosition: 'end',
+              direction: 'ltr'
+            });
+            this.loading = false;
+          }).catch(er => {
+          console.log(er);
+          this.loading = false;
+        })
+//-----------------------
+
+      })
+
     }).catch(error => {
       console.log(error);
+      this.loading = false;
     })
 
-    let customer = {
-      fullName: this.form.value.fullName,
-      address: this.form.value.address,
-      salary: this.form.value.salary,
-      avatar: this.selectedAvatar,
-    }
-    console.log(customer);
+
   }
 
   onChangeFile(event: any) {
-    this.selectedAvatar = event.target.files[0];//target means the value that we need to take
+    this.selectedAvatar = event.target.files[0];
   }
 }
