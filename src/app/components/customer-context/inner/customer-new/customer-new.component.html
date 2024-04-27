@@ -6,7 +6,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12 col-md-4 col-lg-4 wrapper">
-        <mat-form-field class="full-width" appearance="outline">
+        <mat-form-field class="full-width text-input" appearance="outline">
           <mat-label>Full Name</mat-label>
           <input formControlName="fullName" type="text" matInput
                  placeholder="Janith Ranasinghe">
@@ -31,7 +31,11 @@
       </div>
       <div class="col-12 wrapper">
         <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 20px">
-          <button [disabled]="form.invalid || loading" type="submit" mat-raised-button color="primary">Save Customer
+          <button [disabled]="form.invalid || loading"
+                  type="submit"
+                  mat-raised-button color="primary"
+          >
+            Save Customer
           </button>
         </div>
       </div>

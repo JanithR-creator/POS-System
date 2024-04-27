@@ -56,7 +56,7 @@ export class CustomerNewComponent {
     const fileRef = this.storage.ref(path);
     const task = this.storage.upload(path, this.selectedAvatar);
 
-    this.uploadRate = task.percentageChanges();
+    this.uploadRate = task.percentageChanges();//back end hadanawanm mewa api write karanna ooni dewal
 
     task.snapshotChanges().pipe(
       finalize(() => {
@@ -88,7 +88,7 @@ export class CustomerNewComponent {
           console.log(er);
           this.loading = false;
         })
-//-----------------------
+        //-----------------------
 
       })
 
