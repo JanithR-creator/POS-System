@@ -1,1 +1,58 @@
-<p>customer-all works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Salary</th>
+            <th>Avatar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tempCustomer of customers; index as num">
+            <th>
+              <div class="context">
+                {{num+1}}
+              </div>
+            </th>
+            <th>
+              <div class="context">
+                {{tempCustomer?.data.fullName}}
+              </div>
+            </th>
+            <th>
+              <div class="context">
+                {{tempCustomer?.data.address}}
+              </div>
+            </th>
+            <th>
+              <div class="context">
+                {{tempCustomer?.data.salary | currency:'LKR'}}
+              </div>
+            </th>
+            <th>
+              <div class="context">
+                <img [src]="tempCustomer?.data.avatar" alt="{{tempCustomer?.data.fullName}}">
+              </div>
+            </th>
+            <th>
+              <div class="context">
+                <button mat-icon-button color="warn" (click)="deleteCustomer(tempCustomer?.id,tempCustomer?.data.avatar)">
+                  <mat-icon>delete_sweep</mat-icon>
+                </button>
+                &nbsp;
+                <button mat-icon-button color="primary" routerLink="/dashboard/customer/update/{{tempCustomer?.id}}">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </div>
+            </th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

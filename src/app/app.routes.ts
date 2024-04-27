@@ -16,7 +16,7 @@ export const routes: Routes = [
         path: 'customer', component: CustomerContextComponent, children: [
           {path: '', redirectTo: '/dashboard/customer/new', pathMatch: 'full'},
           {path: 'new', component: CustomerNewComponent},
-          {path: 'update', component: CustomerUpdateComponent},
+          {path: 'update/:id', component: CustomerUpdateComponent},
           {path: 'list', component: CustomerAllComponent},
         ]
       },
