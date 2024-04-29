@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>Product</th>
+          <th>Description</th>
+          <th>qty on hand</th>
+          <th>price</th>
+          <th>image</th>
+        </tr>
+        </thead>
+        <tbody *ngFor="let temp of productList">
+        <th>{{temp.name}}</th>
+        <th>{{temp.description}}</th>
+        <th>{{temp.qty}}</th>
+        <th>{{temp.price}}</th>
+        <th>{{temp.image}}</th>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

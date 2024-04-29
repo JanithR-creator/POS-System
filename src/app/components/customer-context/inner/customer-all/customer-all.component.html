@@ -40,11 +40,13 @@
             </th>
             <th>
               <div class="context">
-                <button mat-icon-button color="warn" (click)="deleteCustomer(tempCustomer?.id,tempCustomer?.data.avatar)">
+                <button mat-icon-button color="warn"
+                        (click)="deleteCustomer(tempCustomer?.id,tempCustomer?.data.avatar)">
                   <mat-icon>delete_sweep</mat-icon>
                 </button>
                 &nbsp;
-                <button mat-icon-button color="primary" routerLink="/dashboard/customer/update/{{tempCustomer?.id}}">
+                <button mat-icon-button color="primary"
+                        routerLink="/dashboard/customer/update/{{tempCustomer?.id}}">
                   <mat-icon>edit</mat-icon>
                 </button>
               </div>
@@ -53,6 +55,5 @@
         </tbody>
       </table>
     </div>
-
   </div>
 </div>
