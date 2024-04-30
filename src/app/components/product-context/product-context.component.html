@@ -4,19 +4,54 @@
       <table class="table table-hover">
         <thead>
         <tr>
-          <th>Product</th>
-          <th>Description</th>
+          <th>product</th>
+          <th>description</th>
           <th>qty on hand</th>
           <th>price</th>
           <th>image</th>
         </tr>
         </thead>
-        <tbody *ngFor="let temp of productList">
-        <th>{{temp.name}}</th>
-        <th>{{temp.description}}</th>
-        <th>{{temp.qty}}</th>
-        <th>{{temp.price}}</th>
-        <th>{{temp.image}}</th>
+        <tbody>
+        <tr *ngFor="let tempProduct of productList">
+          <th>
+            <div class="context">
+              {{tempProduct?.data.name}}
+            </div>
+          </th>
+          <th>
+            <div class="context">
+              {{tempProduct?.data.description}}
+            </div>
+          </th>
+          <th>
+            <div class="context">
+              {{tempProduct?.data.qty}}
+            </div>
+          </th>
+          <th>
+            <div class="context">
+              {{tempProduct?.data.price | currency:'LKR'}}
+            </div>
+          </th>
+          <th>
+            <div class="context">
+              <img [src]="tempProduct?.data.avatar" alt="{{tempProduct?.data.name}}">
+            </div>
+          </th>
+          <th>
+            <div class="context">
+              <button mat-icon-button color="warn"
+                      (click)="deleteCustomer(tempProduct?.id,tempProduct?.data.avatar)">
+                <mat-icon>delete_sweep</mat-icon>
+              </button>
+              &nbsp;
+              <button mat-icon-button color="primary"
+                      routerLink="/dashboard/product/update/{{tempProduct?.id}}">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          </th>
+        </tr>
         </tbody>
       </table>
     </div>
